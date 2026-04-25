@@ -1,0 +1,6 @@
+trial,key,status,error_message,elapsed_ms,dlq_before,dlq_after,dlq_increased
+0,uploads/exp4/broken_b11b54.jpg,error,cannot identify image file <_io.BytesIO object at 0x7fd72eacfb00>,1589,0,1,True
+1,uploads/exp4/broken_0321c3.jpg,error,cannot identify image file <_io.BytesIO object at 0x7fd72eacf3d0>,1442,1,2,True
+2,uploads/exp4/broken_f4af69.jpg,error,cannot identify image file <_io.BytesIO object at 0x7fd72f298310>,1403,2,3,True
+3,uploads/exp4/broken_92014b.jpg,error,cannot identify image file <_io.BytesIO object at 0x7fd72eaceed0>,1419,3,4,True
+4,uploads/exp4/broken_4faaec.jpg,error,cannot identify image file <_io.BytesIO object at 0x7fd72eacecf0>,1369,4,5,True
