@@ -3,7 +3,7 @@ import uuid, time
 from concurrent.futures import ThreadPoolExecutor # 병렬 처리를 위한 도구
 from experiment_utils import s3, wait_done, save_csv, BUCKET
 
-CONCURRENCIES = [1, 5, 10, 20] # 동시에 업로드할 파일 개수 (1개씩, 5개씩... 20개씩)
+CONCURRENCIES = [1, 5, 10] # 동시에 업로드할 파일 개수 (1개씩, 5개씩, 10개씩)
 TRIALS        = 10 # 각 조건당 10번씩 반복
 IMG_PATH      = '../scripts/test_images/test_1024kb.jpg' # 1MB 이미지로 고정
 

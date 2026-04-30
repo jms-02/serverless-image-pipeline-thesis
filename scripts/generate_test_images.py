@@ -13,28 +13,35 @@ SIZES = {
 }
 
 for name, target_kb in SIZES.items():
-    side = int(math.sqrt(target_kb * 1024 / 3))
+    target_bytes = target_kb * 1024
     
-    # 랜덤 노이즈 이미지 생성
+    side = int(math.sqrt(target_bytes * 1.2)) 
+    
     noise = np.random.randint(0, 256, (side, side, 3), dtype=np.uint8)
     img = Image.fromarray(noise, 'RGB')
     
     path = f'scripts/test_images/test_{name}.jpg'
-    saved = False
     
-    for q in range(95, 10, -5):
+    best_buf = None
+    best_diff = float('inf')
+    best_q = 100
+    
+    # 1부터 100까지의 Quality를 전부 테스트하여 가장 오차가 적은 값을 탐색
+    for q in range(1, 101):
         buf = io.BytesIO()
         img.save(buf, format='JPEG', quality=q)
-        if buf.tell() >= target_kb * 1024 * 0.9: # 목표 용량의 90% 이상이면
-            with open(path, 'wb') as f:
-                f.write(buf.getvalue()) # 메모리 데이터를 실제 파일로 저장
-            actual_kb = os.path.getsize(path) // 1024
-            print(f"생성: {path} ({actual_kb}KB)")
-            saved = True
-            break
-    
-    # 
-    if not saved:
-        img.save(path, format='JPEG', quality=95)
-        actual_kb = os.path.getsize(path) // 1024
-        print(f"생성(최대 quality): {path} ({actual_kb}KB)")
+        current_size = buf.tell()
+        
+        diff = abs(current_size - target_bytes)
+        
+        if diff < best_diff:
+            best_diff = diff
+            best_q = q
+            best_buf = buf.getvalue()
+            
+    # 가장 근접한 결과물 파일로 저장
+    with open(path, 'wb') as f:
+        f.write(best_buf)
+        
+    actual_kb = len(best_buf) / 1024
+    print(f"생성: {path} ({actual_kb:.2f}KB)")
